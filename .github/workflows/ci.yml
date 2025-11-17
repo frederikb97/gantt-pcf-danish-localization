@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build root project (if present)
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build
+          else
+            echo "No package.json at repository root"
+          fi
+
+      - name: Build gantt-solution (if present)
+        run: |
+          if [ -f gantt-solution/package.json ]; then
+            cd gantt-solution
+            npm ci
+            npm run build
+          else
+            echo "No gantt-solution/package.json"
+          fi
+
+      - name: Build nested pcf-universal-gantt-chart-master (if present)
+        run: |
+          if [ -f pcf-universal-gantt-chart-master/package.json ]; then
+            cd pcf-universal-gantt-chart-master
+            npm ci
+            npm run build
+          else
+            echo "No nested package.json"
+          fi
