@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Entities />
+  <Roles />
+  <Workflows />
+  <FieldSecurityProfiles />
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <optionsets />
+  <CustomControls />
+  <SolutionPluginAssemblies />
+  <EntityDataProviders />
+  <Languages>
+    <Language>1029</Language>
+    <Language>1031</Language>
+    <Language>1033</Language>
+    <Language>1046</Language>
+    <Language>1053</Language>
+    <Language>1058</Language>
+    <Language>3082</Language>
+  </Languages>
+</ImportExportXml>

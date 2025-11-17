@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="UniversalGanttGridComponent" constructor="UniversalGanttChartComponent" version="1.0.6" display-name-key="Universal Gantt Chart Component" description-key="Component shows tasks on a timeline. You can move them on the chart." control-type="standard" >
+    <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
+    If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
+    Example1:
+      <external-service-usage enabled="true">
+        <domain>www.Microsoft.com</domain>
+      </external-service-usage>
+    Example2:
+      <external-service-usage enabled="false">
+      </external-service-usage>
+    -->
+    <external-service-usage enabled="false">
+      <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
+      <domain></domain>
+      <domain></domain>
+      -->
+    </external-service-usage>
+    <type-group name="Date.All">
+       <type>DateAndTime.DateAndTime</type>
+       <type>DateAndTime.DateOnly</type>
+    </type-group>
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="entityDataSet" display-name-key="Entity-Grid" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayQuickFind:true">
+      <property-set name="title" display-name-key="Title" description-key="Record Name for displaying on grid" of-type="SingleLine.Text" usage="input" required="true" />
+      <property-set name="startTime" display-name-key="Start" description-key="Scheduled start date and time" of-type-group="Date.All" usage="input" required="true" />
+      <property-set name="endTime" display-name-key="End" description-key="Scheduled end date and time" of-type-group="Date.All" usage="input" required="true" />
+      <property-set name="progress" display-name-key="Progress" description-key="From 0 to 100. Whole Number" of-type="Whole.None" usage="input" required="false" />
+      <property-set name="parentRecord" display-name-key="Parent Record" description-key="Parent record reference" of-type="Lookup.Simple" usage="input" required="false" />
+      <property-set name="taskTypeOption" display-name-key="Task Type(Option)" 
+        description-key="Specifies record type. Task, milestone, project. You are able to configure option-text mapping in Task Type Mapping parameter." of-type="OptionSet" 
+        usage="input" required="false" 
+      />
+      <property-set name="displayColorOption" 
+        display-name-key="Display Color(Option)" description-key="Specifies record color by option value(hex code)" of-type="OptionSet" usage="input" required="false" />
+      <property-set name="displayColorText" 
+        display-name-key="Display Color(Text)" description-key="Specifies record color by text value(hex code)" of-type="SingleLine.Text" usage="input" required="false" />
+    </data-set>
+
+    <property name="displayMode" display-name-key="Display Mode" description-key="Parameter enables or disables progress and datetime controls" of-type="Enum" usage="input" required="true" default-value="editable">
+      <value name="editable" display-name-key="Editable">editable</value>
+      <value name="readonly" display-name-key="Read Only">readonly</value>
+    </property>
+
+    <property name="isSubgrid" display-name-key="Is SubGrid" description-key="This flag is for views in subgrid only" of-type="Enum" usage="input" required="true" default-value="no">
+      <value name="no" display-name-key="No">no</value>
+      <value name="yes" display-name-key="Yes">yes</value>
+    </property>
+
+    <property name="viewMode" display-name-key="Default Duration View" description-key=" " of-type="Enum" usage="input" required="true" default-value="Day">
+      <value name="quarter" display-name-key="Quarter of Day">Quarter Day</value>
+      <value name="half" display-name-key="Half of Day">Half Day</value>
+      <value name="day" display-name-key="Day">Day</value>
+      <value name="week" display-name-key="Week">Week</value>
+      <value name="month" display-name-key="Month">Month</value>
+    </property>
+
+    <property name="taskTypeMapping" 
+      display-name-key="Task Type Mapping" description-key="Defines task type to option value" 
+      of-type="SingleLine.Text" usage="input" required="true" default-value='{"1":"task","2":"milestone","3":"project"}'
+    />
+    
+    <property name="displayDateFormat" display-name-key="Display Date Format" description-key=" " of-type="Enum" usage="input" required="true" default-value="datetime">
+      <value name="datetime" display-name-key="Date and Time">datetime</value>
+      <value name="date" display-name-key="Date">date</value>
+    </property>
+
+    <property name="timeStep" 
+      display-name-key="Time Step" description-key="Time step for task for drag event" of-type="Whole.None" usage="input" required="true" default-value="300000"/>
+    <property name="fontSize"
+      display-name-key="Font Size" description-key="Defines chart font size. Works with css style values" 
+      of-type="SingleLine.Text" usage="input" required="true" default-value="14px"
+    />
+
+    <property name="headerHeight" display-name-key="Header Height" description-key="Default header height for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="50"/>
+    <property name="rowHeight" display-name-key="Row Height" description-key="Default row height for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="50"/>
+    <property name="listCellWidth" display-name-key="List`s Cell Width" description-key="Default cell width for list. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="155"/>
+    <property name="columnWidthQuarter" display-name-key="Column Width for Quarter of Day" description-key="Default column width for quarter of day view for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="60"/>
+    <property name="columnWidthHalf" display-name-key="Column Width for Half of Day" description-key="Default column width for half of day view for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="60"/>
+    <property name="columnWidthDay" display-name-key="Column Width for Day" description-key="Default column width for day view for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="60"/>
+    <property name="columnWidthWeek" display-name-key="Column Width for Week" description-key="Default column width for week view for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="250"/>
+    <property name="columnWidthMonth" display-name-key="Column Width for Month" description-key="Default column width for month view for gantt. Unit of the measure is a pixel" of-type="Whole.None" usage="input" required="true" default-value="300"/>
+
+    <property name="customHeaderDisplayName" display-name-key="Custom Display Name" description-key="Defines display header name text" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customHeaderStartName" display-name-key="Custom Start Name" description-key="Defines display header start time text" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customHeaderEndName" display-name-key="Custom End Name" description-key="Defines display header end time text" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customHeaderProgressName" display-name-key="Custom Progress Name" description-key="Defines header display progress text" of-type="SingleLine.Text" usage="input" required="false"/>
+
+    <property name="customBackgroundColor" display-name-key="Custom Background Color" description-key="Defines Bar background color" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customBackgroundSelectedColor" display-name-key="Custom Background Selected Color" description-key="Defines Bar background color on select" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customProgressColor" display-name-key="Custom Progress Color" description-key="Defines Bar progress color" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="customProgressSelectedColor" display-name-key="Custom Progress Selected Color" description-key="Defines Bar progress color on select" of-type="SingleLine.Text" usage="input" required="false"/>
+
+    <resources>
+      <code path="index.ts" order="1"/>
+      <css path="../node_modules/gantt-task-react/dist/index.css" order="1" />
+      <css path="./components/css/task-list-header.css" order="1"/>
+      <css path="./components/css/gantt-footer.css" order="1"/>
+      <css path="./components/css/task-list-table.css" order="1"/>
+      <css path="./components/css/gantt-tooltip.css" order="2"/>
+      <css path="./components/css/universal-gantt.css" order="3"/>
+      <resx path="strings/UniversalGanttChartComponent.1029.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1030.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1031.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1033.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1046.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1053.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.1058.resx" version="1.0.0" />
+      <resx path="strings/UniversalGanttChartComponent.3082.resx" version="1.0.0" />
+    </resources>
+    
+    <feature-usage>
+      <uses-feature name="Utility" required="true"/>
+      <uses-feature name="UserSettings" required="true"/>
+      <uses-feature name="WebAPI" required="true"/>
+      <uses-feature name="Navigation" required="true"/>
+      <uses-feature name="Formatting" required="true"/>
+    </feature-usage>
+  </control>
+</manifest>
